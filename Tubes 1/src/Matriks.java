@@ -34,6 +34,17 @@ public class Matriks {
 		}
 	}
 	
+	void CopyMatriks(Matriks M2) {
+		this.nbaris = M2.nbaris;
+		this.nkolom = M2.nkolom;
+		
+		for(int i = 1; i <= this.nbaris; i++ ) {
+			for(int j = 1; j <= this.nkolom; j++) {
+				this.tab[i][j] = M2.tab[i][j];
+			}
+		}
+	}
+	
 	void TulisMatriks(int n, int m) {
 		for(int i = 1; i <= n; i++) {
 			for(int j = 1; j <= m; j++) {
@@ -129,4 +140,50 @@ public class Matriks {
 		}
 		
 	}
-}
+	
+	void EleminasiGaussJordan() 
+	{
+		int i, j, k;
+		
+		i = 1;
+		j = 1;
+		//Memastikan 1 utamanya bisa diakalin
+		while((i <= this.nbaris) && (j < this.nkolom)) {
+			
+			if(this.tab[i][j] == 0) {
+				k = i;
+			
+				while((j < this.nkolom) && (this.tab[k][j] == 0)) {
+					k++;
+					if(k > this.nbaris) {
+						k = i;
+						j++;
+					}
+				}
+				
+				if(j < this.nkolom) {
+					this.TukarBaris(i, k);
+					this.KaliBaris(i, (1/this.tab[i][j]));
+					for(k = i+1; k <= this.nbaris; k++) {
+						this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+					}
+					for(k = i-1; k >= 1; k--) {
+						this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+					}
+					i++;
+					j++;
+				}
+			} else {
+				this.KaliBaris(i, (1/this.tab[i][j]));
+				for(k = i+1; k <= this.nbaris; k++) {
+					this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+				}
+				for(k = i-1; k >= 1; k--) {
+					this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+				}
+				i++;
+				j++;
+			}
+		}
+	}
+}	
