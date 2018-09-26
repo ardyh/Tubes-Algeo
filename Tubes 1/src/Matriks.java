@@ -68,4 +68,30 @@ public class Matriks {
 	void EleminasiGauss() {
 		
 	}
+	
+	void IsiMatriksInterpolasi(){
+		float k;
+		int n;
+		Scanner baca= new Scanner(System.in);
+		
+		n = baca.nextInt();
+		int nbaris = n+1;
+		int nkolom = n+2;
+		
+		for(int i=1;i<=n;i++){
+			float x=baca.nextFloat();
+			float y=baca.nextFloat();
+			
+			k = 1;
+			for(int j = 1; j <= nkolom-1; j++){
+				this.tab[i][j] = k;
+				k *= x;
+			}
+			this.tab[i][nkolom] = y;
+		}
+		
+	}
+        
+        
+
 }
