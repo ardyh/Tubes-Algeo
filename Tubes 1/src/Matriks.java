@@ -53,20 +53,55 @@ public class Matriks {
 		}
 	}
 	
-	void KaliBaris(int i, int x) {
+	void KaliBaris(int i,float d) {
 		for(int j = 1; j <= this.nkolom; j++) {
-			this.tab[i][j] *= x;
+			this.tab[i][j] *= d;
 		}
 	}
 	
-	void TambahBarisLain(int i1, int i2, int x) {
+	void TambahBarisLain(int i1, int i2, float x) {
 		for(int j = 1; j <= this.nkolom; j++) {
 			this.tab[i1][j] += x*(this.tab[i2][j]);
 		}
 	}
 	
 	void EleminasiGauss() {
+		int i, j, k;
 		
+		i = 1;
+		j = 1;
+		//Memastikan 1 utamanya bisa diakalin
+		while((i <= this.nbaris) && (j < this.nkolom)) {
+			
+			if(this.tab[i][j] == 0) {
+				k = i;
+			
+				while((j < this.nkolom) && (this.tab[k][j] == 0)) {
+					k++;
+					if(k > this.nbaris) {
+						k = i;
+						j++;
+					}
+				}
+				
+				if(j < this.nkolom) {
+					this.TukarBaris(i, k);
+					this.KaliBaris(i, (1/this.tab[i][j]));
+					for(k = i+1; k <= this.nbaris; k++) {
+						this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+					}
+					i++;
+					j++;
+				}
+			} else {
+				this.KaliBaris(i, (1/this.tab[i][j]));
+				for(k = i+1; k <= this.nbaris; k++) {
+					this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
+				}
+				i++;
+				j++;
+			}
+		}
 	}
 	
 	void IsiMatriksInterpolasi(){
