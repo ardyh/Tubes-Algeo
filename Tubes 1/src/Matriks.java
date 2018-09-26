@@ -72,14 +72,17 @@ public class Matriks {
 	void IsiMatriksInterpolasi(){
 		float k;
 		int n;
-		Scanner baca= new Scanner(System.in);
 		
+		Scanner baca= new Scanner(System.in);
+		System.out.print("Masukkan n : ");
 		n = baca.nextInt();
 		int nbaris = n+1;
 		int nkolom = n+2;
 		
 		for(int i=1;i<=n;i++){
+			System.out.print("Masukkan X"+i);
 			float x=baca.nextFloat();
+			System.out.print("Masukkan Y"+i);
 			float y=baca.nextFloat();
 			
 			k = 1;
@@ -91,7 +94,4 @@ public class Matriks {
 		}
 		
 	}
-        
-        
-
 }
