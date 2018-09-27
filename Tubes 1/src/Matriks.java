@@ -186,4 +186,27 @@ public class Matriks {
 			}
 		}
 	}
+		boolean NoSolusi(){
+		int i,j;
+		boolean telusur=false;
+		i=this.nbaris;
+		while ((i>=1)&&(!telusur)){
+			j=0;
+			while((j<this.nkolom-1)&&(!telusur)){
+				j++
+				if (this.tab[i][j]!=0) {
+					telusur=true;
+				}
+			}
+			if ((!telusur)&&(this.tab[i][j]!=0)){
+				telusur=true;
+			}		
+			i--;
+		}
+		if ((j<this.nkolom)||(i<1)){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }	
