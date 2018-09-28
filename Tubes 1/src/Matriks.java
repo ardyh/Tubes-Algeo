@@ -4,6 +4,8 @@ public class Matriks {
 	int nbaris;
 	int nkolom;
 	float[][] tab = new float[55][55];
+	float[] nilai = new float[55];
+	boolean[] isUnik = new boolean[55];
 	
 	public Matriks() { //Konstruktor
 		int i, j;
@@ -12,6 +14,7 @@ public class Matriks {
 			for(j = 1; j <= 50; j++) {
 				this.tab[i][j] = 0;
 			}
+			this.isUnik[i] = false;
 		}
 		
 		this.nbaris = 0;
@@ -98,6 +101,7 @@ public class Matriks {
 				if(j < this.nkolom) {
 					this.TukarBaris(i, k);
 					this.KaliBaris(i, (1/this.tab[i][j]));
+					this.isUnik[j] = true;
 					for(k = i+1; k <= this.nbaris; k++) {
 						this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
 					}
@@ -106,6 +110,7 @@ public class Matriks {
 				}
 			} else {
 				this.KaliBaris(i, (1/this.tab[i][j]));
+				this.isUnik[j] = true;
 				for(k = i+1; k <= this.nbaris; k++) {
 					this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
 				}
@@ -164,6 +169,7 @@ public class Matriks {
 				if(j < this.nkolom) {
 					this.TukarBaris(i, k);
 					this.KaliBaris(i, (1/this.tab[i][j]));
+					this.isUnik[j] = true;
 					for(k = i+1; k <= this.nbaris; k++) {
 						this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
 					}
@@ -175,6 +181,7 @@ public class Matriks {
 				}
 			} else {
 				this.KaliBaris(i, (1/this.tab[i][j]));
+				this.isUnik[j] = true;
 				for(k = i+1; k <= this.nbaris; k++) {
 					this.TambahBarisLain(k, i, (-(this.tab[k][j])/(this.tab[i][j])));
 				}
@@ -186,14 +193,16 @@ public class Matriks {
 			}
 		}
 	}
-		boolean NoSolusi(){
+	
+	boolean NoSolusi(){
 		int i,j;
 		boolean telusur=false;
 		i=this.nbaris;
+		j = 0;
 		while ((i>=1)&&(!telusur)){
 			j=0;
-			while((j<this.nkolom-1)&&(!telusur)){
-				j++
+			while((j<this.nkolom)&&(!telusur)){
+				j++;
 				if (this.tab[i][j]!=0) {
 					telusur=true;
 				}
@@ -203,10 +212,40 @@ public class Matriks {
 			}		
 			i--;
 		}
-		if ((j<this.nkolom)||(i<1)){
+		
+		if ((j < this.nkolom)||(i<1)){
 			return false;
-		}else{
+		}
+		else{
 			return true;
+		}
+		
+	}
+	
+	boolean SolusiUnik() {
+		int i,j;
+		boolean cek;
+		
+		i = 1;
+		cek = this.isUnik[1];
+		while((cek) && (i < this.nkolom-1)) {
+			i++;
+			cek = this.isUnik[i];
+		}
+		return cek;
+	}
+	
+	void Solusi() {
+		
+		
+		if(this.NoSolusi()) {
+			System.out.println("Solusi tidak ada");
+		}
+		else if(this.SolusiUnik()) {
+			System.out.println("Solusi ada");
+		}
+		else {
+			System.out.println("Solusi parametrik"); //Nanti ubah lagi
 		}
 	}
 }	
