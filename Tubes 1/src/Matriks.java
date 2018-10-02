@@ -8,6 +8,7 @@ public class Matriks {
 	boolean[] isUnik = new boolean[55];
 	char[][] vrbl = new char[55][55];
         float[][] cons = new float[55][55];
+	
 	public Matriks() { //Konstruktor
 		int i, j;
 		
