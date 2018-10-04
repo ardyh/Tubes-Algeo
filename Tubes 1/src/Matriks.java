@@ -1,15 +1,16 @@
 import java.util.Scanner;
 public class Matriks {
-	int nbaris;
+	int nbaris;	//banyaknya baris dari matriks
         int n;
-	int nkolom;
-	float[][] tab = new float[55][55];
-	float[] nilai = new float[55];
-	boolean[] isUnik = new boolean[55];
-	char[][] vrbl = new char[55][55];
-        float[][] cons = new float[55][55];
+	int nkolom;	//banyaknya kolom dari matriks
+	float[][] tab = new float[55][55]; //isi dari matriks
+	float[] nilai = new float[55]; //nilai dari xi yang bukan parametrik
+	boolean[] isUnik = new boolean[55]; //apakah xi perlu dimisalkan sebagai variabel
+	char[][] vrbl = new char[55][55]; //menyimpan variabel variabel dari xi
+        float[][] cons = new float[55][55]; //menyimpan konstant dari variabel xi
 	
 	public Matriks() { //Konstruktor
+		//Membuat matriks kosong yang siap diisi
 		int i, j;
 		
 		for(i = 1; i <= 50; i++) {
@@ -25,6 +26,7 @@ public class Matriks {
        
 	
 	void IsiMatriks() { //Jangan lupa bikin kasus kalo yang di input lebih dari maks
+		//Membaca input dari user lalu dimasukan ke matriks
 		Scanner in = new Scanner(System.in);
 		int i,j;
 		
@@ -52,6 +54,7 @@ public class Matriks {
 	}
 	
 	void TulisMatriks(int n, int m) {
+		//Mencetak isi tab matriks ke layar sesuai format matriks
 		for(int i = 1; i <= n; i++) {
 			for(int j = 1; j <= m; j++) {
 				System.out.print(this.tab[i][j] + " ");
@@ -61,6 +64,7 @@ public class Matriks {
 	}
 	
 	void TukarBaris(int i1, int i2) {
+		//salah satu operasi baris elementer yaitu menukar baris i1 ke i2
 		float temp;
 		
 		for(int j = 1; j <= this.nkolom; j++) {
@@ -71,28 +75,29 @@ public class Matriks {
 	}
 	
 	void KaliBaris(int i,float d) {
+		//mengalikan baris i dengan faktor pengali d
 		for(int j = 1; j <= this.nkolom; j++) {
 			this.tab[i][j] *= d;
 		}
 	}
 	
 	void TambahBarisLain(int i1, int i2, float x) {
+		//menambahkan semua baris i1 dengan baris i2* faktor pengali x
 		for(int j = 1; j <= this.nkolom; j++) {
 			this.tab[i1][j] += x*(this.tab[i2][j]);
 		}
 	}
 	
 	void EleminasiGauss() {
+		//proses eliminasi gauss
 		int i, j, k;
 		
 		i = 1;
 		j = 1;
 		//Memastikan 1 utamanya bisa diakalin
 		while((i <= this.nbaris) && (j < this.nkolom)) {
-			
 			if(this.tab[i][j] == 0) {
 				k = i;
-			
 				while((j < this.nkolom) && (this.tab[k][j] == 0)) {
 					k++;
 					if(k > this.nbaris) {
@@ -171,6 +176,7 @@ public class Matriks {
 	}
 	
         int hapusNolSemua(){
+		//menghitung baris yang berisi nol semua
 		int i;
                 int cnt=0;
                 for(int a=1;a<=this.nbaris;a++){
@@ -189,6 +195,7 @@ public class Matriks {
                 return cnt;
 	}
 	boolean NoSolusi(){
+		//mengecek adakah baris yang nol semua kecuali yang paling kanan kalau ada berarti tidak ada solusi
 		int i,j;
 		boolean telusur=false;
 		i=this.nbaris;
@@ -217,6 +224,7 @@ public class Matriks {
 	}
 	
 	boolean SolusiUnik() {
+		
 		int i,j;
 		boolean cek;
 		
@@ -409,6 +417,7 @@ public class Matriks {
      
         }
         void inisialisasiVar(){
+	//menginisialisasi nilai[],vrbl[][] dan cons[][] agar bisa diproses ke procedure Carisolusi
             int cnt=0;
             char x='A'-1;
             for(int i=1;i<this.nkolom;i++){
@@ -428,6 +437,7 @@ public class Matriks {
             }
         }
         void Carisolusi(){
+	//mengeleminasi agar menemukan solusi akhir
             int cnt=0;
             int j,k,l,x;
             cnt=this.hapusNolSemua();
@@ -463,6 +473,7 @@ public class Matriks {
             }    
         }
         void printsolusi(){
+	//menuliskan solusi jika solusi ada
             int j;
             boolean udah;
             for(int i=1;i<=this.nkolom-1;i++){
@@ -504,7 +515,8 @@ public class Matriks {
                 System.out.println();
             }
         }
-        void Solusi() {		
+        void Solusi() {	
+	//menulis segala solusi baik ada maupun tidak
             if(this.NoSolusi()) {
 		System.out.println("Solusi tidak ada");
             }else{
@@ -514,10 +526,18 @@ public class Matriks {
             }
 	}
         public static void main(String[] args) {
-		// TODO Auto-generated method stub
-         
+		// TODO Auto-generated method stub         
 		Matriks M1 = new Matriks();
-                M1.IsiMatriks();
+                System.out.println("MENU");
+		System.out.println("1. Sistem Persamaan Linear");
+		System.out.println("2. Interpolasi Polinom");
+		System.out.println("3. Keluar");
+		
+		System.out.println("Pilih metode penyelesaian");
+		System.out.println("1. Metode eliminasi Gauss");
+		System.out.println("2. Metode eliminasi Gauss-Jordan");
+		M1.IsiMatriks();
+		
                 M1.EleminasiGauss();
                 M1.Solusi();
                // System.out.println(M1.nilai[1]);
