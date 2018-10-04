@@ -384,7 +384,6 @@ public class Matriks {
         }
 	
         void Fx(){
-            //Mencari nilai F(x)
             float hasil,k;
             int j,x;
             hasil=0;
@@ -396,37 +395,9 @@ public class Matriks {
                 hasil=hasil+nilai[j]*k;
                 k=k*x;
             }
-            System.out.print("Nilai F("+x+") = ");
+            System.out.print("hasil F(x) untuk x = "+x+" adalah ");
             System.out.println(hasil);
         
-        }
-        
-        
-        void representasiInterpolasi(){
-            //menampilkan polinom yang terbentuk
-            int j,a;
-            a=this.nkolom-2;
-            j=this.nkolom-1;
-            System.out.println("Polinom F(x) yang terbentuk yaitu ");
-            System.out.print("F(x) = ");
-            
-            while(j>=1){
-                
-                if(this.nilai[j]!=0){
-                   System.out.print(this.nilai[j]);
-                   System.out.print("X^"+a);
-                
-                  if(j!=1){
-                       if(this.nilai[j-1]>=0){
-                          System.out.print("+");
-                        }
-                   }           
-                }
-                a--; 
-                j--;
-            }
-            System.out.println();    
-     
         }
         
         
@@ -561,20 +532,53 @@ public class Matriks {
             }
 	}
         public static void main(String[] args) {
-		// TODO Auto-generated method stub         
+		// TODO Auto-generated method stub
+                int cmd,mtd;
 		Matriks M1 = new Matriks();
+                Scanner input = new Scanner(System.in);
                 System.out.println("MENU");
 		System.out.println("1. Sistem Persamaan Linear");
 		System.out.println("2. Interpolasi Polinom");
 		System.out.println("3. Keluar");
-		
-		System.out.println("Pilih metode penyelesaian");
-		System.out.println("1. Metode eliminasi Gauss");
-		System.out.println("2. Metode eliminasi Gauss-Jordan");
-		M1.IsiMatriks();
-		
-                M1.EleminasiGauss();
-                M1.Solusi();
+		cmd = input.nextInt();
+            switch (cmd) {
+                case 1:
+                    System.out.println("Pilih metode penyelesaian");
+                    System.out.println("1. Metode eliminasi Gauss");
+                    System.out.println("2. Metode eliminasi Gauss-Jordan");
+                    mtd = input.nextInt();
+                    M1.IsiMatriks();
+                    if(mtd==1){
+                        M1.EleminasiGauss();
+                        M1.Solusi();
+                    }
+                    else if(mtd==2){
+                        M1.EleminasiGaussJordan();
+                        M1.Solusi();
+                    }
+                    break;
+                case 2:
+                    System.out.println("Pilih metode penyelesaian");
+                    System.out.println("1. Metode eliminasi Gauss");
+                    System.out.println("2. Metode eliminasi Gauss-Jordan");
+                    mtd = input.nextInt();
+                    M1.IsiMatriksInterpolasi();
+                    if(mtd==1){
+                        M1.InterpolasiGauss();
+                        M1.representasiInterpolasi();
+                        M1.Fx();
+                    }
+                    else if(mtd==2){
+                        M1.InterpolasiGaussJordan();
+                        M1.representasiInterpolasi();
+                        M1.Fx();
+                    }
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
                // System.out.println(M1.nilai[1]);
               /*M1.IsiMatriksInterpolasi();
                 M1.TulisMatriks(M1.nbaris, M1.nkolom);
