@@ -405,6 +405,23 @@ public class Matriks {
         
         }
         
+	
+        void FxEks(){
+            float hasil,k;
+            int j,x;
+            hasil=0;
+            k=1;
+            Scanner in= new Scanner(System.in);
+            System.out.print("Masukan x : ");
+            x = in.nextInt();   
+            for(j=1;j<=this.nkolom-1;j++){
+                hasil=hasil+nilai[j]*k;
+                k=k*x;
+            }
+            tulisFile("hasil F(x) untuk x = "+x+" adalah ");
+            tulisFile(Float.toString(hasil));
+        
+        }
         
         void representasiInterpolasi(){
             int j,a;
@@ -656,7 +673,7 @@ public class Matriks {
 	void SolusiEks() {	
 	//menulis segala solusi baik ada maupun tidak
             if(this.NoSolusi()) {
-		System.out.println("Solusi tidak ada");
+		tulisFile("Solusi tidak ada");
             }else{
                 this.inisialisasiVar();
                 this.Carisolusi();
