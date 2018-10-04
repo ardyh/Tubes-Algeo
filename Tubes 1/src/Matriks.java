@@ -78,6 +78,9 @@ public class Matriks {
 		//mengalikan baris i dengan faktor pengali d
 		for(int j = 1; j <= this.nkolom; j++) {
 			this.tab[i][j] *= d;
+			if (this.tab[i][j]==-0){
+				this.tab[i][j]*=-1;
+			}
 		}
 	}
 	
@@ -85,6 +88,9 @@ public class Matriks {
 		//menambahkan semua baris i1 dengan baris i2* faktor pengali x
 		for(int j = 1; j <= this.nkolom; j++) {
 			this.tab[i1][j] += x*(this.tab[i2][j]);
+			if (this.tab[i1][j]==-0){
+				this.tab[i1][j]*=-1;
+			}
 		}
 	}
 	
