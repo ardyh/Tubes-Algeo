@@ -384,6 +384,7 @@ public class Matriks {
         }
 	
         void Fx(){
+            //Mencari nilai F(x)
             float hasil,k;
             int j,x;
             hasil=0;
@@ -395,9 +396,37 @@ public class Matriks {
                 hasil=hasil+nilai[j]*k;
                 k=k*x;
             }
-            System.out.print("hasil F(x) untuk x = "+x+" adalah ");
+            System.out.print("Nilai F("+x+") = ");
             System.out.println(hasil);
         
+        }
+        
+        
+        void representasiInterpolasi(){
+            //menampilkan polinom yang terbentuk
+            int j,a;
+            a=this.nkolom-2;
+            j=this.nkolom-1;
+            System.out.println("Polinom F(x) yang terbentuk yaitu ");
+            System.out.print("F(x) = ");
+            
+            while(j>=1){
+                
+                if(this.nilai[j]!=0){
+                   System.out.print(this.nilai[j]);
+                   System.out.print("X^"+a);
+                
+                  if(j!=1){
+                       if(this.nilai[j-1]>=0){
+                          System.out.print("+");
+                        }
+                   }           
+                }
+                a--; 
+                j--;
+            }
+            System.out.println();    
+     
         }
         
         
