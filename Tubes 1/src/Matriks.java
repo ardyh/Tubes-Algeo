@@ -1,4 +1,9 @@
-import java.util.Scanner;
+
+import java.io.*;
+import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Matriks {
 	int nbaris;	//banyaknya baris dari matriks
         int n;
@@ -253,9 +258,9 @@ public class Matriks {
 		
 		for(int i=1;i<=n+1;i++){
 			System.out.print("Masukan X"+i+" : ");
-			float x=baca.nextFloat();
+			float x = baca.nextFloat();
 			System.out.print("Masukan Y"+i+" : ");
-			float y=baca.nextFloat();
+			float y = baca.nextFloat();
 			
 			k = 1;
 			for(int j = 1; j <= nkolom-1; j++){
@@ -384,7 +389,6 @@ public class Matriks {
         }
 	
         void Fx(){
-            //Mencari nilai F(x)
             float hasil,k;
             int j,x;
             hasil=0;
@@ -396,38 +400,31 @@ public class Matriks {
                 hasil=hasil+nilai[j]*k;
                 k=k*x;
             }
-            System.out.print("Nilai F("+x+") = ");
+            System.out.print("hasil F(x) untuk x = "+x+" adalah ");
             System.out.println(hasil);
         
         }
         
         
         void representasiInterpolasi(){
-            //menampilkan polinom yang terbentuk
             int j,a;
             a=this.nkolom-2;
             j=this.nkolom-1;
-            System.out.println("Polinom F(x) yang terbentuk yaitu ");
-            System.out.print("F(x) = ");
-            
+            System.out.println("Polinom F(x) yang terbentuk : ");
             while(j>=1){
+                System.out.print(this.nilai[j]);
+                System.out.print("X^"+a);
                 
-                if(this.nilai[j]!=0){
-                   System.out.print(this.nilai[j]);
-                   System.out.print("X^"+a);
-                
-                  if(j!=1){
-                       if(this.nilai[j-1]>=0){
-                          System.out.print("+");
-                        }
-                   }           
+                if(j!=1){
+                     if(this.nilai[j-1]>=0){
+                        System.out.print("+");
+                     }
+                } else {
+                    System.out.println(" = 0");
                 }
                 a--; 
                 j--;
             }
-            System.out.println();    
-     
-        }
      
         }
         void inisialisasiVar(){
@@ -539,68 +536,144 @@ public class Matriks {
                 this.printsolusi();
             }
 	}
-        public static void main(String[] args) {
-		// TODO Auto-generated method stub
-                int cmd,mtd;
-		Matriks M1 = new Matriks();
-                Scanner input = new Scanner(System.in);
-                System.out.println("MENU");
-		System.out.println("1. Sistem Persamaan Linear");
-		System.out.println("2. Interpolasi Polinom");
-		System.out.println("3. Keluar");
-		cmd = input.nextInt();
-            switch (cmd) {
-                case 1:
-                    System.out.println("Pilih metode penyelesaian");
-                    System.out.println("1. Metode eliminasi Gauss");
-                    System.out.println("2. Metode eliminasi Gauss-Jordan");
-                    mtd = input.nextInt();
-                    M1.IsiMatriks();
-                    if(mtd==1){
-                        M1.EleminasiGauss();
-                        M1.Solusi();
+        
+	void printsolusiEks(){
+	//menuliskan solusi jika solusi ada
+            int j;
+            boolean udah;
+            String f1, f2, f3, f4, f5, cc;
+
+            for(int i=1;i<=this.nkolom-1;i++){
+                udah=false;
+                tulisFile("X["+i+"] = ");
+                if(this.nilai[i]!=0){        
+                    f1 = Float.toString(this.nilai[i]);
+                    tulisFile(f1);
+                    udah=true;
+                }
+                j=1;
+                while(this.vrbl[i][j]!='.'){
+                    if(this.cons[i][j]>0){
+                        if(this.cons[i][j]!=1){
+                            if(this.nilai[i]!=0){
+                                f2 = Float.toString(this.cons[i][j]);
+                                tulisFile("+" + f2);
+                            }else{
+                                f2 = Float.toString(this.cons[i][j]);
+                                tulisFile(f2);
+                            }
+                        }
+                        if((this.cons[i][j]==1)&&(this.nilai[i]!=0)){
+                            tulisFile("+");
+                        }
+                        cc = Character.toString(this.vrbl[i][j]);
+                        tulisFile(cc);
+                        udah=true;
+                    }else if(this.cons[i][j]<0){
+                        if(this.cons[i][j]==-1){
+                            tulisFile("-");
+                        }else{
+                            f3 = Float.toString(this.cons[i][j]);
+                            tulisFile(f3);
+                        }
+                        cc = Character.toString(this.vrbl[i][j]);
+                        tulisFile(cc);
+                        udah=true;
                     }
-                    else if(mtd==2){
-                        M1.EleminasiGaussJordan();
-                        M1.Solusi();
-                    }
-                    break;
-                case 2:
-                    System.out.println("Pilih metode penyelesaian");
-                    System.out.println("1. Metode eliminasi Gauss");
-                    System.out.println("2. Metode eliminasi Gauss-Jordan");
-                    mtd = input.nextInt();
-                    M1.IsiMatriksInterpolasi();
-                    if(mtd==1){
-                        M1.InterpolasiGauss();
-                        M1.representasiInterpolasi();
-                        M1.Fx();
-                    }
-                    else if(mtd==2){
-                        M1.InterpolasiGaussJordan();
-                        M1.representasiInterpolasi();
-                        M1.Fx();
-                    }
-                    break;
-                case 3:
-                    break;
-                default:
-                    break;
+                    j++;
+                }
+                 if((this.nilai[i]==0)&&(!udah)){
+                     f1 = Float.toString(this.nilai[i]);
+                     tulisFile(f1);
+                 }
+                //tulisFile("\n");
             }
-               // System.out.println(M1.nilai[1]);
-              /*M1.IsiMatriksInterpolasi();
-                M1.TulisMatriks(M1.nbaris, M1.nkolom);
-                M1.InterpolasiGauss();
-                M1.TulisMatriks(M1.nbaris, M1.nkolom);
-                M1.representasiInterpolasi();
-                M1.Fx();*/
+        }
+	
+	void IsiMatriksEks(){
+        //Mengisi matriks untuk SPL dari file eksternal    
+            String lokasi_file = "data.txt";
+            try {
+                FileReader fr = new FileReader(lokasi_file);
+                //BufferedReader br = new BufferedReader(fr);
+                Scanner inFile  = new Scanner(fr);
+                this.nbaris = inFile.nextInt();
+                this.nkolom = inFile.nextInt();
+
+               for(int i = 1; i <= this.nbaris; i++){
+                   for(int j = 1; j <= this.nkolom; j++){
+                       this.tab[i][j] = inFile.nextFloat();
+                   }
+               }
+
+            } 
+            catch (FileNotFoundException fnfe) {
+                //System.out.println("test");
+                fnfe.getMessage();
+            } 
+            catch (IOException ioe) {
+                ioe.getMessage();
+            }
+        }
+	
+	void IsiMatriksInterpolasiEks(){
+        //Mengisi matriks untuk interpolasi dari file eksternal    
+            float k, x, y;
+		
+            String lokasi_file = "data.txt";
+            try {
+                FileReader fr = new FileReader(lokasi_file);
+                //BufferedReader br = new BufferedReader(fr);
+                Scanner inFile  = new Scanner(fr);
+                int n = inFile.nextInt();
                 
-	/*	M1.IsiMatriksInterpolasi();
-                M1.TulisMatriks(M1.nbaris, M1.nkolom);
-		M1.InterpolasiGauss();
-                M1.representasiInterpolasi();
-          	M1.InterpolasiGaussJordan();
-                M1.representasiInterpolasi();
-                M1.Fx();
- 	}*/
+                this.nbaris = n+1;
+		this.nkolom = n+2;
+
+                for(int i = 1; i <= n+1; i++){
+                    
+                    x = inFile.nextFloat();
+                    y = inFile.nextFloat();
+                    
+                    k = 1;
+                    for(int j = 1; j <= nkolom-1; j++){
+                            this.tab[i][j] = k;
+                            k *= x;
+                    }
+                    this.tab[i][nkolom] = y;
+               }
+
+            } 
+            catch (FileNotFoundException fnfe) {
+                //System.out.println("test");
+                fnfe.getMessage();
+            } 
+            catch (IOException ioe) {
+                ioe.getMessage();
+            }	
+	}
+	
+	void SolusiEks() {	
+	//menulis segala solusi baik ada maupun tidak
+            if(this.NoSolusi()) {
+		System.out.println("Solusi tidak ada");
+            }else{
+                this.inisialisasiVar();
+                this.Carisolusi();
+                this.printsolusiEks();
+            }
+	}
+	
+	public static void tulisFile(String teks) {
+
+            try (PrintWriter out = new PrintWriter(new BufferedWriter (new FileWriter ("hasil.txt", true)))) {
+                out.println(teks);
+            }
+            catch (IOException ioe) {
+                System.out.println("Gagal menulis ke file " + "hasil.txt");
+                ioe.printStackTrace();
+            }
+        }
 }
+
+
